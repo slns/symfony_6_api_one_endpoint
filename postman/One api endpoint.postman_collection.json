@@ -1,0 +1,41 @@
+{
+	"info": {
+		"_postman_id": "941b9ffd-e739-4b74-84f1-5d63224e2f02",
+		"name": "One api endpoint",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "127.0.0.1:8000/api/v1/operation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"operation\": \"ListCountriesOperation\",\n    \"data\": {\n        \"language\": \"pt\",\n        \"name\": \"Po\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/api/v1/operation",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"operation"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
