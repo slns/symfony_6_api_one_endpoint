@@ -6,6 +6,9 @@ use App\Api\Model\ApiInput;
 use App\Api\Model\ApiOutput;
 use App\Contract\ApiOperationInterface;
 use App\Exception\ApiOperationException;
+use App\Operation\ApiOperationSubject;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class ApiOperationHandler
 {
@@ -14,12 +17,13 @@ class ApiOperationHandler
      */
     private array $operations;
 
-    public function __construct(iterable $apiOperations)
+    public function __construct(private readonly Security $security, iterable $apiOperations)
     {
         foreach ($apiOperations as $operation){
             $this->operations[$operation->getName()] = $operation;
         }
     }
+
 
     public function performOperation(ApiInput $apiInput): ApiOutput
     {
@@ -27,6 +31,11 @@ class ApiOperationHandler
             throw new ApiOperationException([], sprintf('Operation %s is not defined', $apiInput->getOperation()));
         }
 
-        return $this->operations[$apiInput->getOperation()]->perform($apiInput);
+        $operationHandler = $this->operations[$apiInput->getOperation()];
+        if(!$this->security->isGranted('EXECUTE_OPERATION', new ApiOperationSubject(get_class($operationHandler), $operationHandler->getGroup()))){
+            throw new AccessDeniedException('Not allowed to perform this operation');
+        }
+
+        return $operationHandler->perform($apiInput);
     }
 }

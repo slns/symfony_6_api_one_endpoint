@@ -14,7 +14,11 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ApiController extends AbstractController
 {
     #[Route('/api/v1/operation', name: 'api_operation', methods: ['POST'])]
-    public function apiOperationAction(Request $request, SerializerInterface $serializer, ApiOperationHandler $apiOperationHandler): JsonResponse
+    public function apiOperationAction(
+        Request $request,
+        SerializerInterface $serializer,
+        ApiOperationHandler $apiOperationHandler
+    ): JsonResponse
     {
         $apiInput = $serializer->deserialize($request->getContent(), ApiInput::class, 'json');
         $apiOutput = $apiOperationHandler->performOperation($apiInput);

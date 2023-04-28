@@ -10,4 +10,6 @@ interface ApiOperationInterface
     public function perform(ApiInput $apiInput): ApiOutput;
     public function getName(): string;
     public function getInput(): string;
+
+    public function getGroup(): ?string;
 }

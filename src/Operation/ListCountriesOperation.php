@@ -12,14 +12,11 @@ use Symfony\Component\HttpKernel\KernelInterface;
 
 class ListCountriesOperation implements ApiOperationInterface
 {
-    private ApiOperationInputHandler $apiOperationInputHandler;
-    private KernelInterface $kernel;
 
-    public function __construct(ApiOperationInputHandler $apiOperationInputHandler, KernelInterface $kernel)
-    {
-        $this->apiOperationInputHandler = $apiOperationInputHandler;
-        $this->kernel = $kernel;
-    }
+    public function __construct(
+        private readonly ApiOperationInputHandler $apiOperationInputHandler,
+        private readonly KernelInterface $kernel
+    ) {}
 
     public function perform(ApiInput $apiInput): ApiOutput
     {
@@ -63,5 +60,10 @@ class ListCountriesOperation implements ApiOperationInterface
     public function getInput(): string
     {
         return ListCountriesInput::class;
+    }
+
+    public function getGroup(): ?string
+    {
+        return 'COUNTRY';
     }
 }

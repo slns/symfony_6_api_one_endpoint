@@ -8,14 +8,10 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ApiOperationInputHandler
 {
-    private SerializerInterface $serializer;
-    private ValidatorInterface $validator;
-
-    public function __construct(SerializerInterface $serializer, ValidatorInterface $validator)
-    {
-        $this->serializer = $serializer;
-        $this->validator = $validator;
-    }
+    public function __construct(
+        private readonly SerializerInterface $serializer,
+        private readonly ValidatorInterface  $validator
+    ) {}
 
     public function denormalizeAndValidate(array $input, string $className): object
     {
